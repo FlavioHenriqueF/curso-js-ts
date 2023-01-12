@@ -4,7 +4,6 @@ function Calculator() {
   this.init = () => {
     this.clickButtons();
     this.keyPressEnter();
-    this.keyPressClear();
   };
 
   this.keyPressEnter = () => {
@@ -14,17 +13,6 @@ function Calculator() {
       }
     });
   };
-
-  this.keyPressClear = () => {
-    this.display.addEventListener("keyup", (e) => {
-      if (e.keyCode === 67) {
-        this.clearDisplay();
-      }
-    });
-  };
-
-  this.clearDisplay = () => (this.display.value = "");
-  this.deleteOne = () => (this.display.value = this.display.value.slice(0, -1));
 
   this.equal = () => {
     try {
@@ -46,14 +34,17 @@ function Calculator() {
     document.addEventListener("click", (e) => {
       const el = e.target;
       if (el.classList.contains("btn-num")) this.displayButton(el);
-      if (el.classList.contains("btn-clear")) this.clearDisplay();
-      if (el.classList.contains("btn-del")) this.deleteOne();
+      if (el.classList.contains("btn-clear")) this.clear();
+      if (el.classList.contains("btn-del")) this.del();
       if (el.classList.contains("btn-eq")) this.equal();
     });
   };
 
-  this.displayButton = (value) => {
-    this.display.value += value.innerText;
+  this.clear = () => (this.display.value = "");
+  this.del = () => (this.display.value = this.display.value.slice(0, -1));
+
+  this.displayButton = (el) => {
+    this.display.value += el.innerText;
     this.display.focus();
   };
 }
