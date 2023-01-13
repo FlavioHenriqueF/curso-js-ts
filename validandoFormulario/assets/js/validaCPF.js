@@ -13,6 +13,7 @@ class ValidCpf {
   }
 
   valid() {
+    if (!this.cpfClean) return false;
     if (typeof this.cpfClean === "undefined") return false;
     if (this.cpfClean.length !== 11) return false;
     if (this.isSequence()) return false;
@@ -46,10 +47,10 @@ class ValidCpf {
   }
 }
 
-const cpf = new ValidCpf("070.987.720-03");
+// const cpf = new ValidCpf("070.987.720-03");
 
-if (cpf.valid()) {
-  console.log("CPF válido");
-} else {
-  console.log("CPF inválido");
-}
+// if (cpf.valid()) {
+//   console.log("CPF válido");
+// } else {
+//   console.log("CPF inválido");
+// }
