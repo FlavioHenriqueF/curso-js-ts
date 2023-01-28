@@ -2,25 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/Aula19-Exercicio/Aula19-Exercicio.ts":
-/*!**************************************************!*\
-  !*** ./src/Aula19-Exercicio/Aula19-Exercicio.ts ***!
-  \**************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__webpack_require__(/*! ./form-control */ "./src/Aula19-Exercicio/form-control.ts");
-const form_control_1 = __importDefault(__webpack_require__(/*! ./form-control */ "./src/Aula19-Exercicio/form-control.ts"));
-const form = new form_control_1.default('#form');
-form.init();
-
-
-/***/ }),
-
 /***/ "./src/Aula19-Exercicio/form-control.ts":
 /*!**********************************************!*\
   !*** ./src/Aula19-Exercicio/form-control.ts ***!
@@ -42,7 +23,7 @@ class ValidarForm {
         this.passwordEqual = this.form.querySelector('input[name="password2"]');
     }
     init() {
-        this.form.addEventListener('submit', (e) => {
+        this.form?.addEventListener('submit', (e) => {
             this.handleSubmit(e);
         });
     }
@@ -50,29 +31,26 @@ class ValidarForm {
         e.preventDefault();
         this.validate();
     }
-    // valida e envia o formulario!
     validate() {
         const name = this.nameInput;
         const email = this.emailInput;
         const password = this.password;
         const passwordEqual = this.passwordEqual;
-        const passwordIsValid = this.checkPassword(password, passwordEqual);
-        const emailIsValid = this.checkEmail(email);
         this.checkEmptyFields(email, password, passwordEqual);
+        const emailIsValid = this.checkEmail(email);
+        const passwordIsValid = this.checkPassword(password, passwordEqual);
         if (!name.value.trim()) {
             return this.createError(name, 'Campo não pode ficar vazio');
         }
         if (passwordIsValid && emailIsValid)
             this.form.submit();
     }
-    // Checa os campos
     checkEmptyFields(...inputs) {
         inputs.forEach((input) => {
             if (!input.value)
                 this.createError(input, 'Campo não pode ficar vazio');
         });
     }
-    // checa o email se é valido
     checkEmail(input) {
         let isValid = true;
         if (!(0, isEmail_1.default)(input.value)) {
@@ -81,21 +59,19 @@ class ValidarForm {
         }
         return isValid;
     }
-    // checa se a senha é valida
     checkPassword(password, passwordEqual) {
         let isValid = true;
-        if (password.value.length < 6 || password.value.length > 12) {
-            isValid = false;
-            this.createError(password, 'Senha precisa estar entre 6 e 12 caracteres.');
-        }
         if (password.value !== passwordEqual.value) {
             this.createError(passwordEqual, 'As senhas não coincidem uma com a outra.');
             this.createError(password, 'As senhas não coincidem uma com a outra.');
             isValid = false;
         }
+        if (password.value.length < 6 || password.value.length > 12) {
+            isValid = false;
+            this.createError(password, 'Senha precisa estar entre 6 e 12 caracteres.');
+        }
         return isValid;
     }
-    // gera o erro
     createError(input, msg) {
         const formFields = input.parentElement;
         const errorMessage = formFields.querySelector('.error-message');
@@ -104,6 +80,55 @@ class ValidarForm {
     }
 }
 exports["default"] = ValidarForm;
+
+
+/***/ }),
+
+/***/ "./src/Aula34-Exercicio-video/Aula34-Exercicio.ts":
+/*!********************************************************!*\
+  !*** ./src/Aula34-Exercicio-video/Aula34-Exercicio.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+class VideoPlayer {
+    constructor(videoPlayerElements) {
+        this.videoPlayer = videoPlayerElements.videoPlayer;
+        this.playButton = videoPlayerElements.playButton;
+        this.stopButton = videoPlayerElements.stopButton;
+    }
+    initEvents() {
+        this.playButton.addEventListener('click', () => {
+            this.playToggle();
+        });
+        this.stopButton.addEventListener('click', () => {
+            this.stop();
+        });
+    }
+    playToggle() {
+        if (this.videoPlayer.paused) {
+            this.videoPlayer.play();
+            this.playButton.innerText = 'Pause';
+        }
+        else {
+            this.videoPlayer.pause();
+            this.playButton.innerText = 'Play';
+        }
+    }
+    stop() {
+        this.videoPlayer.pause();
+        this.playButton.innerText = 'Play';
+        this.videoPlayer.currentTime = 0;
+    }
+}
+exports["default"] = VideoPlayer;
+const videoPlayer = new VideoPlayer({
+    videoPlayer: document.querySelector('.video'),
+    playButton: document.querySelector('.play'),
+    stopButton: document.querySelector('.stop'),
+});
+videoPlayer.initEvents();
 
 
 /***/ }),
@@ -628,12 +653,20 @@ module.exports["default"] = exports.default;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/Aula19-Exercicio/Aula19-Exercicio.ts");
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+var exports = __webpack_exports__;
+/*!**************************************************!*\
+  !*** ./src/Aula19-Exercicio/Aula19-Exercicio.ts ***!
+  \**************************************************/
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__webpack_require__(/*! ../Aula34-Exercicio-video/Aula34-Exercicio */ "./src/Aula34-Exercicio-video/Aula34-Exercicio.ts");
+__webpack_require__(/*! ./form-control */ "./src/Aula19-Exercicio/form-control.ts");
+
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=bundle.js.map

@@ -24,8 +24,8 @@ export default class ValidarForm {
     ) as HTMLInputElement;
   }
 
-  init() {
-    this.form.addEventListener('submit', (e) => {
+  init(): void {
+    this.form?.addEventListener('submit', (e) => {
       this.handleSubmit(e);
     });
   }
@@ -42,9 +42,9 @@ export default class ValidarForm {
     const password = this.password;
     const passwordEqual = this.passwordEqual;
 
-    const passwordIsValid = this.checkPassword(password, passwordEqual);
-    const emailIsValid = this.checkEmail(email);
     this.checkEmptyFields(email, password, passwordEqual);
+    const emailIsValid = this.checkEmail(email);
+    const passwordIsValid = this.checkPassword(password, passwordEqual);
     if (!name.value.trim()) {
       return this.createError(name, 'Campo não pode ficar vazio');
     }
@@ -77,14 +77,6 @@ export default class ValidarForm {
   ): boolean {
     let isValid = true;
 
-    if (password.value.length < 6 || password.value.length > 12) {
-      isValid = false;
-      this.createError(
-        password,
-        'Senha precisa estar entre 6 e 12 caracteres.',
-      );
-    }
-
     if (password.value !== passwordEqual.value) {
       this.createError(
         passwordEqual,
@@ -92,6 +84,14 @@ export default class ValidarForm {
       );
       this.createError(password, 'As senhas não coincidem uma com a outra.');
       isValid = false;
+    }
+
+    if (password.value.length < 6 || password.value.length > 12) {
+      isValid = false;
+      this.createError(
+        password,
+        'Senha precisa estar entre 6 e 12 caracteres.',
+      );
     }
 
     return isValid;
